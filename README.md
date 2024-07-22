@@ -1,39 +1,94 @@
-# Alumni Association Management Platform
+# Decentralized Cloud Storage
 
-This project is a decentralized platform built on the Internet Computer, aiming to facilitate the management of alumni associations, events, mentorship requests, and communication within the alumni community. It leverages the power of the blockchain to ensure transparency and reliability in the management processes.
+Decentralized Cloud Storage is a blockchain-based cloud storage solution implemented in Rust. This project leverages Internet Computer (IC) technology to provide a secure, decentralized, and user-friendly platform for managing and sharing files.
 
-## Key Features
+## Features
 
-### Alumni Management
-- **Create Alumni Profile**: Allows the creation of new alumni profiles with validation for input fields.
-- **Get Alumni Profiles**: Retrieves all registered alumni profiles.
-- **Get Alumni by ID**: Retrieves the profile of a specific alumni by their unique ID.
-- **Search Alumni**: Searches for alumni by name or graduation year.
+- **User Management**
+  - Create and manage user accounts with roles and permissions.
+  - Enable or disable two-factor authentication for enhanced security.
 
-### Association Management
-- **Create Association**: Allows the creation of new associations.
-- **Get Associations**: Retrieves all registered associations.
-- **Get Association by ID**: Retrieves the details of a specific association by its ID.
-- **Join Association**: Allows an alumni to join an association.
-- **Leave Association**: Allows an alumni to leave an association.
+- **File Management**
+  - Upload, download, and manage files with versioning and tagging.
+  - Store files with encryption for added security.
+  - Implement file versioning to keep track of changes and allow rollbacks.
 
-### Event Management
-- **Create Event**: Allows the creation of new events within associations.
-- **Get Events**: Retrieves all registered events.
-- **Get Event by ID**: Retrieves the details of a specific event by its ID.
-- **RSVP to Event**: Allows alumni to RSVP to events.
+- **Access Control**
+  - Set fine-grained access controls for files, including read and write permissions.
+  - Add expiry dates to access controls for temporary file sharing.
 
-### Communication
-- **Send Message to Association**: Allows alumni to send messages to association members.
+- **Audit Logging**
+  - Maintain audit logs to track user actions and ensure accountability.
 
-### Mentorship Management
-- **Request Mentorship**: Allows alumni to request mentorship from other alumni.
-- **Approve Mentorship Request**: Approves a mentorship request.
+- **File Search**
+  - Search files based on tags for easy retrieval and organization.
 
-### Error Handling
-- **Not Found**: Returns an error if a requested resource (alumni, association, event) is not found.
-- **Invalid Input**: Handles errors related to invalid input fields.
+## Getting Started
 
+Follow these steps to get started with Decentralized Cloud Storage:
+
+1. **Install Dependencies:**
+   - Ensure you have Rust and the DFINITY SDK installed on your machine.
+   - Install necessary Rust crates by running `cargo build`.
+
+2. **Deploy the Canister:**
+   - Run `npm run gen-deploy` to generate and deploy the canister.
+
+3. **Interact with the Canister:**
+   - Use the provided APIs to interact with the canister for user and file management.
+
+## Usage
+
+Here are some example payloads for interacting with the APIs:
+
+### Creating a User
+
+```json
+
+{
+    "username": "john_doe",
+    "email": "john.doe@example.com",
+    "role": "admin"
+}
+
+```
+### Uploading a File
+
+```json
+{
+    "owner_id": 1001,
+    "filename": "example.txt",
+    "content": [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100],
+    "encrypted": false,
+    "tags": ["example", "text"]
+}
+```
+
+`content`: The content of the file should be in byte array format (example: [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100], which represents the string "Hello World").
+
+### Setting Access Control
+```json
+{
+    "file_id": 1,
+    "user_id": 1002,
+    "read": true,
+    "write": false,
+    "expiry": null
+}
+```
+### Enabling Two-Factor Authentication
+```json
+{
+    "user_id": 1001
+}
+```
+
+### Searching Files by Tag
+```json
+{
+    "tag": "example"
+}
+```
 
 
 ## Requirements
