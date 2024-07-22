@@ -1,0 +1,98 @@
+type Alumni = record {
+  id : nat64;
+  name : text;
+  created_at : nat64;
+  email : text;
+  graduation_year : nat32;
+};
+type AlumniPayload = record {
+  name : text;
+  email : text;
+  graduation_year : nat32;
+};
+type Association = record {
+  id : nat64;
+  name : text;
+  description : text;
+  created_at : nat64;
+  alumnis : vec nat64;
+};
+type AssociationPayload = record { name : text; description : text };
+type Event = record {
+  id : nat64;
+  organizer : text;
+  title : text;
+  association_id : nat64;
+  date_time : nat64;
+  description : text;
+  created_at : nat64;
+  attendees : vec text;
+  capacity : nat32;
+  location : text;
+};
+type EventPayload = record {
+  organizer : text;
+  title : text;
+  association_id : nat64;
+  date_time : nat64;
+  description : text;
+  capacity : nat32;
+  location : text;
+};
+type JoinAssociationPayload = record {
+  association_id : nat64;
+  alumni_id : nat64;
+};
+type MentorshipRequest = record {
+  id : nat64;
+  status : text;
+  created_at : nat64;
+  requester_id : nat64;
+  mentor_id : nat64;
+};
+type MentorshipRequestPayload = record {
+  requester_id : nat64;
+  mentor_id : nat64;
+};
+type Message = variant {
+  Error : text;
+  InvalidPayload : text;
+  NotFound : text;
+  Success : text;
+};
+type MessagePayload = record {
+  association_id : nat64;
+  content : text;
+  sender_id : nat64;
+};
+type Result = variant { Ok : Message; Err : Message };
+type Result_1 = variant { Ok : Alumni; Err : Message };
+type Result_2 = variant { Ok : Association; Err : Message };
+type Result_3 = variant { Ok : Event; Err : Message };
+type Result_4 = variant { Ok : vec Alumni; Err : Message };
+type Result_5 = variant { Ok : vec Association; Err : Message };
+type Result_6 = variant { Ok : vec Event; Err : Message };
+type Result_7 = variant { Ok : MentorshipRequest; Err : Message };
+type RsvpEventPayload = record { alumni_id : nat64; event_id : nat64 };
+type SearchAlumniPayload = record {
+  name : opt text;
+  graduation_year : opt nat32;
+};
+service : {
+  approve_mentorship_request : (nat64) -> (Result);
+  create_alumni : (AlumniPayload) -> (Result_1);
+  create_association : (AssociationPayload) -> (Result_2);
+  create_event : (EventPayload) -> (Result_3);
+  get_alumni_by_id : (nat64) -> (Result_1) query;
+  get_alumnis : () -> (Result_4) query;
+  get_association_by_id : (nat64) -> (Result_2) query;
+  get_associations : () -> (Result_5) query;
+  get_event_by_id : (nat64) -> (Result_3) query;
+  get_events : () -> (Result_6) query;
+  join_association : (JoinAssociationPayload) -> (Result);
+  leave_association : (JoinAssociationPayload) -> (Result);
+  request_mentorship : (MentorshipRequestPayload) -> (Result_7);
+  rsvp_event : (RsvpEventPayload) -> (Result);
+  search_alumni : (SearchAlumniPayload) -> (Result_4) query;
+  send_message_to_association : (MessagePayload) -> (Result);
+}
